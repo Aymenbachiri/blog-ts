@@ -1,0 +1,19 @@
+{
+  "Navbar": {
+    "logo": "الشعار",
+    "home": "الرئيسية",
+    "articles": "مقالات",
+    "post": "انشر",
+    "log in": "تسجيل الدخول",
+    "dashboard": "لوحة التحكم",
+    "sign out": "تسجيل الخروح",
+    "sign in": "تسجيل الدخول"
+  },
+  "Register": {
+      "register": "التسجيل"
+    },
+    "Footer": {
+      "AYMEN BACHIRI, All rights Reserved": "أيمن بشيري, جميع الحقوق محفوظة",
+      "Made With": "صنع مع"
+    }
+}

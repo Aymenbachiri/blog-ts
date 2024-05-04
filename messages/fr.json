@@ -1,0 +1,19 @@
+{
+  "Navbar": {
+    "logo": "logo",
+    "home": "maison",
+    "articles": "articles",
+    "post": "publier",
+    "log in": "connecter",
+    "dashboard": "tableau de bord",
+    "sign out": "se déconnecter",
+    "sign in": "connecter"
+  },
+    "Register": {
+      "register": "registrement"
+    },
+    "Footer": {
+      "AYMEN BACHIRI, All rights Reserved": "AYMEN BACHIRI, Tous droits réservés",
+      "Made With": "crée avec"
+    }
+}
