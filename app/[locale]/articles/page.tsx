@@ -1,44 +1,63 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
+import { ArticleCard } from "@/components/ArticleCard";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-async function getData() {
+function getData() {
   const url = process.env.NEXTAUTH_URL;
 
-  const res = await fetch(`${url}/api/posts`, {
+  return fetch(`/api/posts`, {
     cache: "no-store",
+  }).then((res) => {
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+    return res.json();
   });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-  return res.json();
+}
+interface Data {
+  _id: string;
+  title: string;
+  description: string;
+  imageurl: string;
+  updatedAt: Date;
+  creator: string;
 }
 
-export default async function Blog() {
-  const data = await getData();
-  console.log(data);
+export default function Blog() {
+  const [data, setData] = useState<Data[]>([]);
+  const pathName = usePathname();
+  const currentLanguage = pathName.split("/")[1] || "en";
+
+  useEffect(() => {
+    getData()
+      .then((data) => {
+        console.log(data);
+        setData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
   return (
     <div className="mt-[110px]">
-      {data.map((item: any) => (
-        <Link
-          href={`/blog/${item._id}`}
-          key={item.id}
-          className="flex items-center gap-12 mb-12"
-        >
-          <div>
-            <img
-              src={item.imageurl}
-              width={400}
-              height={250}
-              className="object-cover w-[200px]"
-              alt="post img"
+      {data.map((item, index) => (
+        <div key={index} className="grid grid-cols-1 md:grid-cols-4">
+          <Link
+            href={`/${currentLanguage}/articles/${item._id}`}
+            className="flex items-center gap-12 mb-12"
+          >
+            <ArticleCard
+              title={item.title}
+              description={item.description}
+              imageurl={item.imageurl}
+              date={item.updatedAt}
+              creator={item.creator}
             />
-          </div>
-          <div>
-            <h1 className="mb-4">{item.title} </h1>
-            <p className="text-[#999] text-xl">{item.description} </p>
-          </div>
-        </Link>
+          </Link>
+        </div>
       ))}
     </div>
   );

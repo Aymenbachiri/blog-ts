@@ -3,18 +3,19 @@ import connectToDB from "@/utils/database";
 import { NextRequest } from "next/server";
 
 interface Params {
+  username: string;
   id: string;
 }
 
 export const GET = async (req: NextRequest, { params }: { params: Params }) => {
-  const { id } = params;
+  const { username } = params;
   try {
     await connectToDB();
 
-    const post = await Article.findById(id);
-    return new Response(JSON.stringify(post), { status: 200 });
+    const posts = await Article.find({ creator: username });
+    return new Response(JSON.stringify(posts), { status: 200 });
   } catch (error) {
-    return new Response("failed to fetch all posts", { status: 500 });
+    return new Response("Failed to fetch posts", { status: 500 });
   }
 };
 
@@ -29,6 +30,6 @@ export const DELETE = async (
     await Article.findByIdAndDelete(id);
     return new Response("Post has been deleted", { status: 200 });
   } catch (error) {
-    return new Response("failed to fetch all posts", { status: 500 });
+    return new Response("Failed to delete post", { status: 500 });
   }
 };

@@ -4,16 +4,16 @@ import { NextRequest } from "next/server";
 
 export const GET = async (req: NextRequest) => {
   const url = new URL(req.url);
-
-  const username = url.searchParams.get("username");
+  const username = url.pathname.split("/").pop(); // Extract username from URL
 
   try {
     await connectToDB();
 
-    const posts = await Article.find((username && { username }) || {});
+    const posts = await Article.find({ creator: username });
+
     return new Response(JSON.stringify(posts), { status: 200 });
   } catch (error) {
-    return new Response("failed to fetch all posts", { status: 500 });
+    return new Response("Failed to fetch posts", { status: 500 });
   }
 };
 
